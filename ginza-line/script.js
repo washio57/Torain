@@ -1,33 +1,25 @@
-const player =
-  document.getElementById("audio-player");
+const player = document.getElementById("audio-player");
 
-function playMusic(file){
+function playMusic(src) {
 
-  // 同じ曲なら一回停止
-  if(player.src.includes(file)){
+  // 同じ曲を押した時も再読み込み
+  player.pause();
+  player.currentTime = 0;
 
-    player.pause();
-    player.currentTime = 0;
-  }
+  // パス設定
+  player.src = src;
 
-  // 新しい曲設定
-  player.src = file;
+  // iPad Safari対策
+  player.load();
 
   // 再生
-  player.play()
-    .catch(error => {
-
-      console.log(
-        "再生エラー:",
-        error
-      );
-
-    });
+  player.play().catch(error => {
+    console.error("再生エラー:", error);
+    alert("音声を再生できませんでした");
+  });
 }
 
-function stopMusic(){
-
+function stopMusic() {
   player.pause();
-
   player.currentTime = 0;
 }
