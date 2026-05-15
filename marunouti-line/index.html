@@ -1,265 +1,350 @@
-```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>東京メトロ丸ノ内線 駅メロディ</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0; /* 背景表示用 */
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
 
-        header {
-            display: flex;
-            align-items: center;
-            background-color: #e52434; /* 丸ノ内スカーレット */
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+  <meta charset="UTF-8">
 
-        header .line-icon {
-            width: 40px; /* アイコンの高さ */
-            height: 40px; /* アイコンの高さ */
-            margin-right: 10px;
-            /* ここに路線のアイコン画像URLを指定 */
-            background-image: url('path/to/marunouchi_line_icon.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-        header .line-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-        }
+  <title>丸ノ内線 駅メロ</title>
 
-        .container {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8); /* ガラス風 */
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+  <link rel="stylesheet" href="style.css">
 
-        .station-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .station-name {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #e52434; /* 丸ノ内スカーレット */
-        }
-
-        .melody-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-
-        .melody-info {
-            flex-grow: 1;
-            margin-right: 15px;
-        }
-
-        .melody-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .audio-filename {
-            font-size: 12px;
-            color: #777;
-        }
-
-        .play-button {
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .play-button:hover {
-            background-color: #45a049;
-        }
-
-        .playing .play-button {
-            background-color: #f44336; /* 再生中の色 */
-        }
-
-        .playing .play-button::after {
-            content: '再生中...';
-            margin-left: 5px;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .footer-controls {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px); /* ガラス効果 */
-            -webkit-backdrop-filter: blur(5px); /* Safari用 */
-        }
-
-        .footer-controls .current-melody-title {
-            color: #fff;
-            margin-right: 20px;
-            font-weight: bold;
-        }
-
-        .footer-controls .loop-checkbox label {
-            color: #fff;
-            margin-left: 5px;
-        }
-    </style>
 </head>
+
 <body>
-    <header>
-        <div class="line-icon"></div>
-        <div class="line-name">東京メトロ 丸ノ内線</div>
-    </header>
 
-    <div class="container">
-        <section class="station-section">
-            <div class="station-name">M01 池袋</div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">A線: キラキラ</div>
-                    <div class="audio-filename">audio/M01A</div>
-                </div>
-                <button class="play-button" data-audio="audio/M01A.mp3">再生</button>
-            </div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">B線: 夢路</div>
-                    <div class="audio-filename">audio/M01B</div>
-                </div>
-                <button class="play-button" data-audio="audio/M01B.mp3">再生</button>
-            </div>
-        </section>
+  <!-- 背景車両 -->
+  <div class="bg-image"></div>
 
-        <section class="station-section">
-            <div class="station-name">M02 新宿三丁目</div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">A線: 華やか</div>
-                    <div class="audio-filename">audio/M02A</div>
-                </div>
-                <button class="play-button" data-audio="audio/M02A.mp3">再生</button>
-            </div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">B線: 都会の風</div>
-                    <div class="audio-filename">audio/M02B</div>
-                </div>
-                <button class="play-button" data-audio="audio/M02B.mp3">再生</button>
-            </div>
-        </section>
 
-        <section class="station-section">
-            <div class="station-name">M03 新宿</div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">A線: 賑わい</div>
-                    <div class="audio-filename">audio/M03A</div>
-                </div>
-                <button class="play-button" data-audio="audio/M03A.mp3">再生</button>
-            </div>
-            <div class="melody-item">
-                <div class="melody-info">
-                    <div class="melody-title">B線: 旅立ち</div>
-                    <div class="audio-filename">audio/M03B</div>
-                </div>
-                <button class="play-button" data-audio="audio/M03B.mp3">再生</button>
-            </div>
-        </section>
 
-        <!-- 他の駅も同様に追加 -->
+
+
+  <main class="container">
+
+    <!-- 路線タイトル -->
+    <div class="line-title">
+
+      <img
+        src="icons/marunouchi.png"
+        class="line-icon"
+      >
+
+      <h1>丸ノ内線</h1>
 
     </div>
 
-    <div class="footer-controls">
-        <div class="current-melody-title"></div>
-        <div class="loop-checkbox">
-            <input type="checkbox" id="loopCheckbox">
-            <label for="loopCheckbox">ループ</label>
+
+
+
+
+    <!-- ===================================== -->
+    <!-- 駅カード ここから -->
+    <!-- ===================================== -->
+
+    <section class="station-card">
+
+      <!-- 駅名 -->
+      <h2 class="station-name">
+        M01 池袋
+      </h2>
+
+
+
+
+
+      <!-- 曲 -->
+      <div class="melody-item">
+
+        <div class="melody-title">
+          A : フランソワ
         </div>
+
+        <div class="button-group">
+
+          <button onclick="playMusic('audio/M01A1.mp3','フランソワ')">
+            再生
+          </button>
+
+          <button onclick="stopMusic()">
+            停止
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+
+
+      <!-- 曲 -->
+      <div class="melody-item">
+
+        <div class="melody-title">
+          B : きらりトレイン
+        </div>
+
+        <div class="button-group">
+
+          <button onclick="playMusic('audio/M01B1.mp3','きらりトレイン')">
+            再生
+          </button>
+
+          <button onclick="stopMusic()">
+            停止
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ===================================== -->
+    <!-- 駅カード ここまで -->
+    <!-- ===================================== -->
+
+
+
+
+
+    <!-- ================================================= -->
+    <!-- ↓↓↓ このブロックをコピペして追加 ↓↓↓ -->
+    <!-- ================================================= -->
+
+    <section class="station-card">
+
+      <h2 class="station-name">
+        M02 新大塚
+      </h2>
+
+
+
+
+
+      <div class="melody-item">
+
+        <div class="melody-title">
+          A : もうすぐ扉が閉まります
+        </div>
+
+        <div class="button-group">
+
+          <button onclick="playMusic('audio/M02A1.mp3','もうすぐ扉が閉まります')">
+            再生
+          </button>
+
+          <button onclick="stopMusic()">
+            停止
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="melody-item">
+
+        <div class="melody-title">
+          B : ドリーム駅
+        </div>
+
+        <div class="button-group">
+
+          <button onclick="playMusic('audio/M02B1.mp3','ドリーム駅')">
+            再生
+          </button>
+
+          <button onclick="stopMusic()">
+            停止
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================= -->
+    <!-- ↑↑↑ このブロックをコピペして追加 ↑↑↑ -->
+    <!-- ================================================= -->
+
+
+
+
+
+  </main>
+
+
+
+
+
+  <!-- 下部固定プレイヤー -->
+  <div class="music-bar">
+
+    <div class="music-left">
+
+      <div class="playing-label">
+        NOW PLAYING
+      </div>
+
+      <div
+        class="now-playing"
+        id="nowPlaying"
+      >
+        再生されていません
+      </div>
+
     </div>
 
-    <audio id="audioPlayer"></audio>
 
-    <script>
-        const playButtons = document.querySelectorAll('.play-button');
-        const audioPlayer = document.getElementById('audioPlayer');
-        const currentMelodyTitle = document.querySelector('.footer-controls .current-melody-title');
-        const loopCheckbox = document.getElementById('loopCheckbox');
-        let currentlyPlayingButton = null;
 
-        playButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const audioSrc = button.getAttribute('data-audio');
-                const melodyTitle = button.closest('.melody-item').querySelector('.melody-title').textContent;
 
-                // 現在再生中のボタンがあれば、再生停止とクラス解除
-                if (currentlyPlayingButton) {
-                    currentlyPlayingButton.classList.remove('playing');
-                    audioPlayer.pause();
-                }
 
-                // 新しいボタンの再生処理
-                audioPlayer.src = audioSrc;
-                audioPlayer.play();
-                button.classList.add('playing');
-                currentMelodyTitle.textContent = `再生中: ${melodyTitle}`;
-                currentlyPlayingButton = button;
+    <div class="music-right">
 
-                // 再生終了時の処理
-                audioPlayer.onended = () => {
-                    if (!loopCheckbox.checked) {
-                        button.classList.remove('playing');
-                        currentMelodyTitle.textContent = '';
-                        currentlyPlayingButton = null;
-                    } else {
-                        audioPlayer.play(); // ループがチェックされている場合は再度再生
-                    }
-                };
-            });
-        });
+      <!-- ループ -->
+      <label class="loop-wrap">
 
-        // ループチェックボックスの状態変更
-        loopCheckbox.addEventListener('change', () => {
-            audioPlayer.loop = loopCheckbox.checked;
-        });
-    </script>
+        <input
+          type="checkbox"
+          id="loopToggle"
+        >
+
+        ループ
+
+      </label>
+
+
+
+
+
+      <!-- シークバー -->
+      <input
+        type="range"
+        id="seekBar"
+        value="0"
+        min="0"
+        max="100"
+      >
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <!-- audio -->
+  <audio
+    id="audio-player"
+    preload="auto"
+  ></audio>
+
+
+
+
+
+  <script>
+
+    const player =
+      document.getElementById(
+        "audio-player"
+      );
+
+    const seekBar =
+      document.getElementById(
+        "seekBar"
+      );
+
+    const loopToggle =
+      document.getElementById(
+        "loopToggle"
+      );
+
+    const nowPlaying =
+      document.getElementById(
+        "nowPlaying"
+      );
+
+
+
+
+
+    function playMusic(file,name){
+
+      player.src = file;
+
+      player.loop =
+        loopToggle.checked;
+
+      player.play();
+
+      nowPlaying.textContent =
+        name;
+    }
+
+
+
+
+
+    function stopMusic(){
+
+      player.pause();
+
+      player.currentTime = 0;
+
+      nowPlaying.textContent =
+        "再生されていません";
+    }
+
+
+
+
+
+    player.addEventListener(
+      "timeupdate",
+      () => {
+
+        if(player.duration){
+
+          seekBar.value =
+            (player.currentTime
+            / player.duration)
+            * 100;
+        }
+
+      }
+    );
+
+
+
+
+
+    seekBar.addEventListener(
+      "input",
+      () => {
+
+        if(player.duration){
+
+          player.currentTime =
+            (seekBar.value / 100)
+            * player.duration;
+        }
+
+      }
+    );
+
+  </script>
+
 </body>
 </html>
-```
